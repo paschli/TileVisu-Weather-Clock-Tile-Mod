@@ -169,8 +169,8 @@
     }
 
     #temperature-icon img {
-      max-width: 4.4rem;
-      max-height: 4.4rem;
+      max-width: clamp(3rem, 7vw, 7rem);
+      max-height: clamp(3rem, 7vw, 7rem);
       display: block;
     }
 
@@ -180,7 +180,7 @@
       line-height: 1;
     }
 
-    #temperature-value { font-size: 45px; line-height: 1; }
+    #temperature-value { font-size: clamp(2rem, 6vw, 5rem); line-height: 1; }
     #temperature-extra {
       display: flex;
       flex-direction: row;
@@ -189,8 +189,8 @@
       margin-top: 0.2rem;
       white-space: nowrap;
     }
-    #temperature-day { font-size: 16px; opacity: 0.9; }
-    #temperature-minmax { font-size: 18px; opacity: 0.9; }
+    #temperature-day { font-size: clamp(0.9rem, 2vw, 1.4rem); opacity: 0.9; }
+    #temperature-minmax { font-size: clamp(1rem, 2.2vw, 1.6rem); opacity: 0.9; }
     /* Bottom-left stack for temperature + forecast */
     #left-stack {
       position: absolute;
