@@ -1,10 +1,10 @@
 {
-    "id": "{F15DDF9A-8A4B-4C3C-82F7-33B6031E9F32}",
-    "name": "TileVisuWeatherClockTile",
+    "id": "{2329baf1-9db5-4391-b817-520c48487a73}",
+    "name": "TileVisuWeatherClockTile-Mod",
     "type": 3,
     "vendor": "",
     "aliases": [
-        "TileVisu-Wetter-Uhr-Kachel"
+        "TileVisu-Wetter-Uhr-Kachel-Mod"
     ],
     "parentRequirements": [],
     "childRequirements": [],
