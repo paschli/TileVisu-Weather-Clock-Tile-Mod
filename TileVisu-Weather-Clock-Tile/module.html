@@ -235,7 +235,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+      font-size: clamp(1.2rem, 2.8vw, 2.2rem);
       margin-bottom: 0.2rem;
     }
     .forecast-item .fi-icon img {
@@ -244,12 +244,12 @@
       display: block;
     }
     .forecast-item .fi-label {
-      font-size: 14px;
+      font-size: clamp(0.7rem, 1.5vw, 1rem);
       margin-bottom: 0.15rem;
       white-space: nowrap;
     }
     .forecast-item .fi-temps {
-      font-size: 17px;
+      font-size: clamp(0.8rem, 1.8vw, 1.2rem);
       white-space: nowrap;
     }
     #clock-wrapper {
@@ -684,62 +684,55 @@
     }
 
     function scaleLeftStack() {
-      const stack = document.getElementById('left-stack');
-      if (!stack) {
-        return;
-      }
+  const stack = document.getElementById('left-stack');
+  const tempEl = document.getElementById('temperature');
+  if (!stack || !tempEl) return;
 
-      stack.style.transform = '';
-      stack.style.maxWidth = '';
+  // Stack selbst wird NICHT mehr skaliert – Transform zurücksetzen
+  stack.style.transform = '';
+  stack.style.maxWidth = '';
 
-      const percent = (typeof forecastWidthPercent === 'number' && isFinite(forecastWidthPercent)) ? forecastWidthPercent : 25;
-      const cfgWidth = window.innerWidth * (Math.max(5, Math.min(100, percent)) / 100);
-      if (!Number.isFinite(cfgWidth) || cfgWidth <= 0) {
-        return;
-      }
+  const percent = (typeof forecastWidthPercent === 'number' && isFinite(forecastWidthPercent))
+    ? forecastWidthPercent : 25;
+  const cfgWidth = window.innerWidth * (Math.max(5, Math.min(100, percent)) / 100);
+  if (!Number.isFinite(cfgWidth) || cfgWidth <= 0) return;
 
-      // Use #temperature as the collision base (fallback to stack if missing)
-      const tempEl = document.getElementById('temperature');
-      const baseEl = tempEl || stack;
-      const baseRect = baseEl.getBoundingClientRect();
-      if (!baseRect.width) {
-        return;
-      }
+  const clockWrap = document.getElementById('clock-wrapper');
+  const flip = document.querySelector('#clock .flip-clock');
+  const gap = 15;
+  let availableToClock = Infinity;
+  let clockVisible = false;
+  const measureEl = flip || clockWrap || null;
+  if (measureEl) {
+    const cs = window.getComputedStyle(measureEl);
+    clockVisible = cs && cs.display !== 'none' && cs.visibility !== 'hidden';
+  }
 
-      // Horizontal-only: measure free space until the actual flip-clock's left edge
-      const clockWrap = document.getElementById('clock-wrapper');
-      const flip = document.querySelector('#clock .flip-clock');
-      const gap = 15; // px spacing
-      let availableToClock = Infinity;
-      let clockVisible = false;
-      const measureEl = flip || clockWrap || null;
-      if (measureEl) {
-        const cs = window.getComputedStyle(measureEl);
-        clockVisible = cs && cs.display !== 'none' && cs.visibility !== 'hidden';
-      }
-      if (clockVisible && measureEl) {
-        const clockRect = measureEl.getBoundingClientRect();
-        availableToClock = Math.max(0, clockRect.left - gap - baseRect.left);
-      }
-      // Compute scales:
-      // - cfgScale limits overall left-stack width to backend percent
-      // - freeScale uses temperature width to fill space until the clock
-      const stackRect = stack.getBoundingClientRect();
-      if (!stackRect.width) {
-        return;
-      }
-      const minScale = 0.99;
-      const cfgScaleRaw = cfgWidth / stackRect.width;
-      const cfgScale = Number.isFinite(cfgScaleRaw) && cfgScaleRaw > 0 ? cfgScaleRaw : 1;
-      const freeScaleRaw = (!clockVisible || !Number.isFinite(availableToClock)) ? Infinity : (availableToClock / baseRect.width);
-      const freeScale = Number.isFinite(freeScaleRaw) && freeScaleRaw > 0 ? freeScaleRaw : Infinity;
-      let scale = Math.min(cfgScale, freeScale);
-      if (!Number.isFinite(scale) || scale <= 0) scale = 1;
-      scale = Math.max(minScale, scale);
-      stack.style.transform = `scale(${scale})`;
-      // Do not constrain with maxWidth; transform defines the visual width
-      stack.style.maxWidth = '';
-    }
+  // Transform kurz zurücksetzen, damit getBoundingClientRect() unverfälscht ist
+  tempEl.style.transform = '';
+  const tempRect = tempEl.getBoundingClientRect();
+  if (!tempRect.width) return;
+
+  if (clockVisible && measureEl) {
+    const clockRect = measureEl.getBoundingClientRect();
+    availableToClock = Math.max(0, clockRect.left - gap - tempRect.left);
+  }
+
+  const minScale = 0.5;
+  const cfgScaleRaw = cfgWidth / tempRect.width;
+  const cfgScale = Number.isFinite(cfgScaleRaw) && cfgScaleRaw > 0 ? cfgScaleRaw : 1;
+  const freeScaleRaw = (!clockVisible || !Number.isFinite(availableToClock))
+    ? Infinity : (availableToClock / tempRect.width);
+  const freeScale = Number.isFinite(freeScaleRaw) && freeScaleRaw > 0 ? freeScaleRaw : Infinity;
+
+  let scale = Math.min(cfgScale, freeScale);
+  if (!Number.isFinite(scale) || scale <= 0) scale = 1;
+  scale = Math.max(minScale, scale);
+
+  // Nur #temperature skalieren, nicht den gesamten Stack
+  tempEl.style.transformOrigin = 'bottom left';
+  tempEl.style.transform = `scale(${scale})`;
+}
 
     function resizeClock() {
       const container = document.getElementById('clock-wrapper');
