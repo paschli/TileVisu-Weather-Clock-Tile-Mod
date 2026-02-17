@@ -1,12 +1,12 @@
 {
-    "id": "{BADDF8FB-1465-E070-8DBC-EE4136BC701B}",
-    "name": "TileVisu-Weather-Clock-Tile",
+    "id": "{e2aedf65-5222-4370-9a9c-0da7f5d5d55d}",
+    "name": "TileVisu-Weather-Clock-Tile-Mod",
     "author": "Stephan Sprick",
-    "url": "https://github.com/da8ter/TileVisu-Weather-Clock-Tile.git",
+    "url": "https://github.com/paschli/TileVisu-Weather-Clock-Tile-Mod.git",
     "compatibility": {
         "version": "7.1"
     },
     "version": "1.1.2",
-    "build": 13,
-    "date": 20262001
+    "build": 14,
+    "date": 20261702
 }
