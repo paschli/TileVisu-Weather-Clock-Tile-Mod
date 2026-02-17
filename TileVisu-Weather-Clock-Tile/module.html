@@ -147,16 +147,12 @@
     }
 
     #temperature {
-      position: absolute;
-      top: 60%;
-      left: 1vw;
-      transform: translateY(-50%);
+      position: static;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       gap: 0.1rem;
       color: inherit;
-      font-size: 45px;
       z-index: 2;
     }
 
@@ -194,15 +190,16 @@
     /* Bottom-left stack for temperature + forecast */
     #left-stack {
       position: absolute;
-      left: 1vw;
+      left: 0;
+      right: 0;
       bottom: 0px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       gap: 0.2rem; /* spacing between temperature and forecast */
       z-index: 2;
       color: inherit;
-      transform-origin: bottom left;
+      transform-origin: bottom center;
     }
     /* Forecast strip */
     #forecast {
@@ -221,9 +218,12 @@
       position: static;
       top: auto;
       left: auto;
-      transform: none;
       opacity: 1;
-      padding-left: 0.6rem; /* align with .forecast-item horizontal padding */
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
     .forecast-item {
       display: flex;
@@ -735,7 +735,7 @@
   scale = Math.max(minScale, scale);
 
   // Nur #temperature skalieren, nicht den gesamten Stack
-  tempEl.style.transformOrigin = 'bottom left';
+  tempEl.style.transformOrigin = 'bottom center';
   tempEl.style.transform = `scale(${scale})`;
 }
 
