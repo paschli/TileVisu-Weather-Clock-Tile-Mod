@@ -688,7 +688,7 @@
       } catch (_) {}
     }
 
-    function scaleLeftStack() {
+function scaleLeftStack() {
   const stack = document.getElementById('left-stack');
   const tempEl = document.getElementById('temperature');
   if (!stack || !tempEl) return;
@@ -732,7 +732,7 @@
 
   let scale = Math.min(cfgScale, freeScale);
   if (!Number.isFinite(scale) || scale <= 0) scale = 1;
-  scale = Math.max(minScale, scale);
+  scale = Math.max(minScale, Math.min(scale, 1.0)); // maximale Skalierung auf 1.0 begrenzen
 
   // Nur #temperature skalieren, nicht den gesamten Stack
   tempEl.style.transformOrigin = 'bottom center';
