@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class TileVisuWeatherClockTile extends IPSModule
+class TileVisuWeatherClockTileMod extends IPSModule
 {
     public function Create()
     {
