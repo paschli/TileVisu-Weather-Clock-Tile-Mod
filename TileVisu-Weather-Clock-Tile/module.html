@@ -175,16 +175,14 @@
       font-size: 1.2em;
       line-height: 1;
     }
-/*
+
     #temperature-value { 
       font-size: clamp(3rem, 7vw, 6rem); 
       line-height: 1; 
-    }*/
-    #temperature-value::after {
-      content: '';
-      vertical-align: super;
-      font-size: 0.5em;
+      display: inline-flex;
+      align-items: baseline;
     }
+    
     #temperature-extra {
       display: flex;
       flex-direction: row;
