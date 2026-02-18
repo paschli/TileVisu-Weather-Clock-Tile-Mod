@@ -1165,9 +1165,13 @@ function scaleLeftStack() {
       if (!valueEl) {
         return;
       }
-
-      const valueText = typeof tempData.value === 'string' ? tempData.value : '';
-      valueEl.textContent = valueText;
+      let valueText = typeof tempData.value === 'string' ? tempData.value : '';
+      
+      //const valueText = typeof tempData.value === 'string' ? tempData.value : '';
+      // Celsius-Zeichen hochstellen
+      valueText = valueText.replace(/(°C?)$/i, '<sup>$1</sup>');
+      //valueEl.textContent = valueText;
+      valueEl.innerHTML = valueText; // WICHTIG: innerHTML statt textContent
 
       const wrapper = document.getElementById('temperature');
       if (wrapper) {
